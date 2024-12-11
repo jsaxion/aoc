@@ -1,0 +1,39 @@
+import re
+
+
+TESTFILE_NAME = "test.txt"
+INPUTFILE_NAME = "input.txt"
+
+
+with open(INPUTFILE_NAME) as f:
+    input_data = f.readlines()
+
+# Part one
+result = 0
+multiplications = []
+for line in input_data:
+    multiplications.extend(re.findall(r"mul\(\d{1,3}\,\d{1,3}\)", line))
+for multiplication in multiplications:
+    x, y = multiplication[4:-1].split(",")
+    result += int(x) * int(y)
+
+print(f"Result: {result}")
+
+# Part two
+result = 0
+multiplications = []
+one_big_line = ""
+for line in input_data:
+    one_big_line += line
+
+stripped_line = re.sub(r"don\'t\(\).*?do\(\)", "", one_big_line)
+print(len(stripped_line))
+stripped_line = re.sub(r"don\'t\(\).*", "", stripped_line)
+print(len(stripped_line))
+
+multiplications.extend(re.findall(r"mul\(\d{1,3}\,\d{1,3}\)", stripped_line))
+for multiplication in multiplications:
+    x, y = multiplication[4:-1].split(",")
+    result += int(x) * int(y)
+
+print(f"Result: {result}")
